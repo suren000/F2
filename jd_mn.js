@@ -1,17 +1,10 @@
 /*
-组队分豆-美泰 [jd_mt.js]
-
+22:/(O2xJG0O5ICAp)，集结战队，召唤好友免费赢京豆！
 ————————————————
-入口：[组队分豆-美泰 (https://lzkjdz-isv.isvjcloud.com/pool/captain/725732?activityId=9a1508ec3d2549dfa8187dcbfd590a34&signUuid=5e5d87e47a8a4f8ab2656e2ce879dc00)]
 IOS等用户直接用NobyDa的jd cookie
-============Quantumultx===============
-[task_local]
-#组队分豆-美泰
-18 2,14 * * * jd_mt.js
-================Loon==============
-
+cron "1 0,7,12 * * *" script-path=jd_anjia.js,tag=
 */
-const $ = new Env("组队分豆-美泰");
+const $ = new Env("组队分豆-蒙牛");
 const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
 const notify = $.isNode() ? require('./sendNotify') : '';
 let cookiesArr = [], cookie = '', message = '';
@@ -35,7 +28,7 @@ if ($.isNode()) {
         $.msg($.name, '【提示】请先获取京东账号一cookie\n直接使用NobyDa的京东签到获取', 'https://bean.m.jd.com/bean/signIndex.action', { "open-url": "https://bean.m.jd.com/bean/signIndex.action" });
         return;
     }
-    console.log(`若之前做过该活动，则无法重复入队。\n入口:\nhttps://lzkjdz-isv.isvjcloud.com/pool/captain/725732?activityId=9a1508ec3d2549dfa8187dcbfd590a34&signUuid=5e5d87e47a8a4f8ab2656e2ce879dc00`)
+    console.log()
     for (let i = 0; i < cookiesArr.length; i++) {
         if (cookiesArr[i]) {
             cookie = cookiesArr[i]
@@ -54,17 +47,17 @@ if ($.isNode()) {
                 }
                 continue
             }
-            authorCodeList = ['']
+            authorCodeList = ['cdb83cb0b3664538a0127c33ba115297']
             $.bean = 0;
             $.ADID = getUUID('xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx', 1);
             $.UUID = getUUID('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx');
             // $.authorCode = authorCodeList[random(0, authorCodeList.length)]
             $.authorCode = ownCode ? ownCode : authorCodeList[random(0, authorCodeList.length)]
             $.authorNum = `${random(1000000, 9999999)}`
-            $.activityId = '9a1508ec3d2549dfa8187dcbfd590a34'
-            $.activityShopId = '1000001879'
+            $.activityId = '4e3b9b6233104c199c0c44ff6edbc85d'
+            $.activityShopId = '1000014803'
             $.activityUrl = `https://lzkjdz-isv.isvjcloud.com/pool/captain/${$.authorNum}?activityId=${$.activityId}&signUuid=${encodeURIComponent($.authorCode)}&adsource=null&shareuserid4minipg=null&shopid=${$.activityShopId}&lng=00.000000&lat=00.000000&sid=&un_area=`
-            await mt();
+            await anjia();
             await $.wait(3000)
             if ($.bean > 0) {
                 message += `\n【京东账号${$.index}】${$.nickName || $.UserName} \n       └ 获得 ${$.bean} 京豆。`
@@ -87,7 +80,7 @@ if ($.isNode()) {
     })
 
 
-async function mt() {
+async function anjia() {
     $.token = null;
     $.secretPin = null;
     $.openCardActivityId = null
@@ -102,10 +95,7 @@ async function mt() {
             await task('common/accessLogWithAD', `venderId=${$.activityShopId}&code=99&pin=${encodeURIComponent($.secretPin)}&activityId=${$.activityId}&pageUrl=${$.activityUrl}&subType=app&adSource=null`, 1);
             await $.wait(2000)
             await task('activityContent', `activityId=${$.activityId}&pin=${encodeURIComponent($.secretPin)}&signUuid=${encodeURIComponent($.authorCode)}`)
-            await getShopOpenCardInfo({ "venderId": "1000001879", "channel": 401 }, 1000001879)
-            await bindWithVender({ "venderId": "1000001879", "shopId": "1000001879", "bindByVerifyCodeFlag": 1, "registerExtend": {}, "writeChildFlag": 0, "activityId": 3282318, "channel": 401 }, 100000000000085)
             if ($.activityContent) {
-                console.log($.activityContent.canJoin)
                 if ($.activityContent.canJoin) {
                     $.log("加入队伍成功，请等待队长瓜分京豆")
                     await $.wait(2000)
@@ -114,8 +104,8 @@ async function mt() {
                     if (!$.activityContent.openCard) {
                         $.log("加入会员")
                         await $.wait(2000)
-                        await getShopOpenCardInfo({ "venderId": "1000001879", "channel": 401 }, 1000001879)
-                        await bindWithVender({ "venderId": "1000001879", "shopId": "1000001879", "bindByVerifyCodeFlag": 1, "registerExtend": {}, "writeChildFlag": 0, "activityId": 3282318, "channel": 401 }, 100000000000085)
+                        await getShopOpenCardInfo({ "venderId": "1000014803", "channel": 401 }, 1000014803)
+                        await bindWithVender({ "venderId": "1000014803", "shopId": "1000014803", "bindByVerifyCodeFlag": 1, "registerExtend": {}, "writeChildFlag": 0, "activityId": 3282318, "channel": 401 }, 100000000000085)
                     }
                     await $.wait(2000)
                     await task('activityContent', `activityId=${$.activityId}&pin=${encodeURIComponent($.secretPin)}&signUuid=${encodeURIComponent($.authorCode)}`, 0, 1)
@@ -276,16 +266,16 @@ function bindWithVender(body, venderId) {
                     console.log(err)
                 } else {
                     res = JSON.parse(data)
-                    // if (res.success) {
-                    //     if (res.result.giftInfo && res.result.giftInfo.giftList) {
-                    //         for (const vo of res.result.giftInfo.giftList) {
-                    //             if (vo.prizeType === 4) {
-                    //                 $.log(`==>获得【${vo.quantity}】京豆`)
-                    //                 $.bean += vo.quantity
-                    //             }
-                    //         }
-                    //     }
-                    // }
+                    if (res.success) {
+                        if (res.result.giftInfo && res.result.giftInfo.giftList) {
+                            for (const vo of res.result.giftInfo.giftList) {
+                                if (vo.prizeType === 4) {
+                                    $.log(`==>获得【${vo.quantity}】京豆`)
+                                    $.bean += vo.quantity
+                                }
+                            }
+                        }
+                    }
                 }
             } catch (error) {
                 console.log(error)
