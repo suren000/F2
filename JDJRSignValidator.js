@@ -2057,6 +2057,7 @@ function _jdJrTdCommonsObtainPin(t) {
     return u
 };
 
+
 function getBody(url = document.location.href) {
     navigator.userAgent = UA
     let href = url
