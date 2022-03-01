@@ -51,7 +51,7 @@ if ($.isNode()) {
           await info()
           await coinDozerBackFlow()
           await getCoinDozerInfo()
-          console.log('\n助力前八个可助力的账号不满意去57行改即可\n');
+          // console.log('\n助力前八个可助力的账号不满意去57行改即可\n');
           if (inviteCodes.length >= 3) {
                break
           }
