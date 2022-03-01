@@ -16,6 +16,8 @@
 [Script]
 cron "5 6-18/2 * * *" script-path=jd_fruit.js,tag=东东农场
 
+
+
 =========================Surge============================
 东东农场 = type=cron,cronexp="5 6-18/2 * * *",wake-system=1,timeout=3600,script-path=jd_fruit.js
 
