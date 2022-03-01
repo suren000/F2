@@ -55,6 +55,7 @@ if ($.isNode()) {
           if (inviteCodes.length >= 3) {
                break
           }
+
      }
      console.log('\n#######开始助力前三个可助力的账号#######\n');
      cookiesArr.sort(function () {
